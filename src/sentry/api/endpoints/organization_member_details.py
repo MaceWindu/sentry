@@ -235,7 +235,7 @@ class OrganizationMemberDetailsEndpoint(OrganizationEndpoint):
             if om.user == request.user and (result["role"] != om.role):
                 return Response({"detail": "You cannot make changes to your own role."}, status=400)
 
-            om.update(role=result["role"])
+            om.update_role(result["role"])
 
         self.create_audit_entry(
             request=request,
