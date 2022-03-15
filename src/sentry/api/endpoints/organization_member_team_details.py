@@ -140,6 +140,28 @@ class OrganizationMemberTeamDetailsEndpoint(OrganizationEndpoint):
 
         omt.send_request_email()
 
+    def get(
+        self,
+        request: Request,
+        organization: Organization,
+        member_id: Union[int, str],
+        team_slug: str,
+    ) -> Response:
+        try:
+            team = Team.objects.get(organization=organization, slug=team_slug)
+        except Team.DoesNotExist:
+            raise ResourceDoesNotExist
+
+        try:
+            member = self._get_member(request, organization, member_id)
+        except OrganizationMember.DoesNotExist:
+            raise ResourceDoesNotExist
+
+        if not OrganizationMemberTeam.objects.filter(team=team, organizationmember=member).exists():
+            raise ResourceDoesNotExist
+
+        return Response(serialize(team, request.user, TeamWithProjectsSerializer()), status=200)
+
     def post(
         self,
         request: Request,
