@@ -476,9 +476,9 @@ class OrganizationMember(Model):
         from sentry.models import OrganizationMemberTeam
 
         entry_role = roles.get_entry_role(role)
+        lesser_roles = [r.id for r in team_roles.get_all() if r.priority <= entry_role.priority]
         with transaction.atomic():
-            for omt in OrganizationMemberTeam.objects.filter(organizationmember=self):
-                if omt.role is not None:
-                    if entry_role.priority >= team_roles.get(omt.role):
-                        omt.update(role=None)
+            OrganizationMemberTeam.objects.filter(
+                organizationmember=self, role__in=lesser_roles
+            ).update(role=None)
             self.update(role=role)
