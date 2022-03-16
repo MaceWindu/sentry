@@ -164,7 +164,7 @@ class TeamSerializer(Serializer):  # type: ignore
                 role = None
             else:
                 is_member = True
-                role = membership.get_team_role()
+                role = membership.get_team_role().id
 
             org_role = org_roles.get(team.organization_id)
             if is_member:
@@ -180,7 +180,7 @@ class TeamSerializer(Serializer):  # type: ignore
             result[team] = {
                 "pending_request": team.id in access_requests,
                 "is_member": is_member,
-                "role": role.id,
+                "role": role,
                 "has_access": has_access,
                 "avatar": avatars.get(team.id),
                 "member_count": member_totals.get(team.id, 0),
