@@ -188,12 +188,16 @@ describe('WidgetBuilder', function () {
         {
           name: 'Known Users',
           fields: [],
+          columns: [],
+          aggregates: [],
           conditions: '',
           orderby: '-time',
         },
         {
           name: 'Anonymous Users',
           fields: [],
+          columns: [],
+          aggregates: [],
           conditions: '',
           orderby: '-time',
         },
@@ -584,6 +588,8 @@ describe('WidgetBuilder', function () {
           name: 'errors',
           conditions: 'event.type:error',
           fields: ['sdk.name', 'count()'],
+          columns: ['sdk.name'],
+          aggregates: ['count()'],
           orderby: '',
         },
       ],
@@ -648,6 +654,8 @@ describe('WidgetBuilder', function () {
     const defaultWidgetQuery = {
       name: '',
       fields: ['title', 'count()', 'count_unique(user)', 'epm()', 'count()'],
+      columns: ['title'],
+      aggregates: ['count()', 'count_unique(user)', 'epm()', 'count()'],
       conditions: 'tag:value',
       orderby: '',
     };
@@ -687,6 +695,8 @@ describe('WidgetBuilder', function () {
     const defaultWidgetQuery = {
       name: '',
       fields: ['count()', 'failure_count()', 'count_unique(user)'],
+      columns: [],
+      aggregates: ['count()', 'failure_count()', 'count_unique(user)'],
       conditions: 'tag:value',
       orderby: '',
     };
@@ -725,6 +735,8 @@ describe('WidgetBuilder', function () {
   it('correctly defaults fields and orderby when in Top N display', async function () {
     const defaultWidgetQuery = {
       fields: ['title', 'count()', 'count_unique(user)'],
+      columns: ['title'],
+      aggregates: ['count()', 'count_unique(user)'],
       orderby: '-count_unique_user',
     };
 
@@ -1072,6 +1084,8 @@ describe('WidgetBuilder', function () {
       const defaultWidgetQuery = {
         name: '',
         fields: ['title', 'count()', 'count_unique(user)', 'epm()', 'count()'],
+        columns: ['title'],
+        aggregates: ['count()', 'count_unique(user)', 'epm()', 'count()'],
         conditions: 'tag:value',
         orderby: '',
       };
@@ -1120,6 +1134,8 @@ describe('WidgetBuilder', function () {
     const defaultWidgetQuery = {
       conditions: '',
       fields: ['equation|count_if(transaction.duration,equals,300)*2'],
+      aggregates: ['equation|count_if(transaction.duration,equals,300)*2'],
+      columns: [],
       orderby: '',
       name: '',
     };
