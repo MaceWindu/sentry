@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import {useTheme} from '@emotion/react';
 import type {MapSeriesOption, TooltipComponentOption} from 'echarts';
 import * as echarts from 'echarts/core';
@@ -44,16 +45,17 @@ export function WorldMapChart({
   fromDiscoverQueryList,
   ...props
 }: WorldMapChartProps) {
-  const map = worldMap;
   const codeToCountryMap = Object.fromEntries(
     Object.entries(countryToCodeMap).map(([country, code]) => [code, country])
   );
 
   const theme = useTheme();
 
-  echarts.registerMap?.('sentryWorld', worldMap as any);
+  useEffect(() => {
+    echarts.registerMap?.('sentryWorld', worldMap as any);
+  }, []);
 
-  if (countryToCodeMap === null || map === null) {
+  if (countryToCodeMap === null || worldMap === null) {
     return null;
   }
 
